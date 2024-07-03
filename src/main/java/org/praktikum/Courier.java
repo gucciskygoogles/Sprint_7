@@ -45,14 +45,7 @@ public class Courier {
         return NAMES[random.nextInt(NAMES.length)];
     }
 
-    @Step("Создание рандомного курьера")
-    public static Courier generateRandomCourier() {
-        return new Courier(generateRandomLogin(), generateRandomPassword(), generateRandomFirstName());
-    }
 
-    public static Courier generateRandomCourierToLogin() {
-        return new Courier(generateRandomLogin(), generateRandomPassword());
-    }
 
 
     public Courier() {
@@ -62,7 +55,7 @@ public class Courier {
         return login;
     }
 
-    @Step("Указание нужного логина")
+
     public void setLogin(String login) {
         this.login = login;
     }
@@ -71,7 +64,7 @@ public class Courier {
         return password;
     }
 
-    @Step("Указание нужного пароля")
+
     public void setPassword(String password) {
         this.password = password;
     }

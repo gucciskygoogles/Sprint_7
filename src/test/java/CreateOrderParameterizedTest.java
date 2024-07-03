@@ -1,3 +1,4 @@
+import api.client.OrderClient;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
@@ -6,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.praktikum.DataGenerator;
 import org.praktikum.Order;
 
 import java.util.Arrays;
@@ -18,6 +20,8 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 @RunWith(Parameterized.class)
 @Feature("Order API")
 public class CreateOrderParameterizedTest {
+
+    private OrderClient orderClient;
 
     @Parameterized.Parameter
     public String[] colors;
@@ -35,21 +39,17 @@ public class CreateOrderParameterizedTest {
     @Before
     public void setUp() {
         RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru";
+        orderClient = new OrderClient();
     }
 
     @Test
     @DisplayName("Параметризованный тест с цветами")
     @Description("Создание заказа с различным набором цветов")
     public void createOrderWithColors() {
-        Order order = Order.generateRandomOrder();
+        Order order = DataGenerator.generateRandomOrder();
         order.setColor(colors);
 
-        given()
-                .header("Content-Type", "application/json")
-                .and()
-                .body(order)
-                .when()
-                .post("/api/v1/orders")
+        orderClient.createOrder(order)
                 .then()
                 .statusCode(201)
                 .and()
